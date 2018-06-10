@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BetSquad.Infrastructure.DTO.FinishedBetDTO>
+
+@{
+    ViewData["Title"] = "My finished bets";
+}
+
+<h2>My finished bets</h2>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Bet.Game.Team1.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bet.Game.Team2.Name)
+            </th>
+            <th>
+                Details:
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bet.ExipiryDate)
+            </th>
+            <th>
+                My result:
+            </th>
+            <th>
+                Real result:
+            </th>
+            <th>
+                Achived points:
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.Game.Team1.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.Game.Team2.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.Game.Details)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.ExipiryDate)
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.Bet.Result.Result_str)
+                </b>
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.Bet.Game.Result.Result_str)
+                </b>
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.AchivedScore)
+                </b>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

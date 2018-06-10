@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BetSquad.Infrastructure.DTO.GameDTO>
+
+@{
+    ViewData["Title"] = "GamesToBet";
+}
+
+<h2>Games to bet</h2>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Team1.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Team2.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team1.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team2.Name)
+            </td>
+            <td>
+                @item.GetGameDetails()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+
+            <td>
+                @Html.ActionLink("Create Bet", "CreateBet", new {  gameId=item.Id  }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

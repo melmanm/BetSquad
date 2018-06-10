@@ -1,0 +1,54 @@
+﻿@model BetSquad.Models.AdminSetResultModel
+
+@{
+    ViewData["Title"] = "SetResult";
+}
+
+
+<h3>Set result for game - ADMINISTRATOR tab</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>
+            <b> @Model.GameDTO.Team1.Name vs @Model.GameDTO.Team2.Name</b> (@Model.GameDTO.GetGameDetails())
+        </h4>
+        <p>
+            <b>Starts at:</b> @Model.GameDTO.StartTime
+        </p>
+
+    </div>
+</div>
+
+<h4>Game result</h4>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SetResult">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group col-md-6">
+                @Model.GameDTO.Team1.Name
+                <input asp-for="score1" class="form-control" />
+                <span asp-validation-for="score1" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                @Model.GameDTO.Team2.Name
+                <input asp-for="score2" class="form-control" />
+                <span asp-validation-for="score2" class="text-danger"></span>
+            </div>
+
+            <input asp-for="GameDTO.Id"  type="hidden" class="form-control" />
+
+            <div class="form-group">
+                <input type="submit" value="SetResult" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Games">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

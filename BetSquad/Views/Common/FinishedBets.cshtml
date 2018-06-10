@@ -1,0 +1,74 @@
+﻿@model BetSquad.Models.CommonUserFinishedBetsModel
+
+@{
+    ViewData["Title"] = "Finished bets";
+}
+
+<h2>
+    @Model.NickName 's finished bets
+    </h2>
+<h3>Total user score: @Model.Score
+    </h3>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FinishedBets.First().Bet.Game.Team1.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinishedBets.First().Bet.Game.Team2.Name)
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinishedBets.First().Bet.ExipiryDate)
+            </th>
+            <th>
+                User's result
+            </th>
+            <th>
+                Real result:
+            </th>
+            <th>
+                Achived points
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.FinishedBets) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.Game.Team1.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.Game.Team2.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.Game.Details)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Bet.ExipiryDate)
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.Bet.Result.Result_str)
+                </b>
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.Bet.Game.Result.Result_str)
+                </b>
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.AchivedScore)
+                </b>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

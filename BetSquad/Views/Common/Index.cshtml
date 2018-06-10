@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BetSquad.Infrastructure.DTO.UserDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <img class="img-responsive" src="~/images/img.jpg" width="100%" >
+
+<h2>Users score summary</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NickName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Score)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int i = 1; }
+@foreach (var item in Model) {
+        <tr>
+           <td>
+          @i
+            @{ i++;}
+               </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NickName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score)
+            </td>
+            <td>
+                @Html.ActionLink("Show User Bets", "FinishedBets", new {  userId=item.Id  }) 
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

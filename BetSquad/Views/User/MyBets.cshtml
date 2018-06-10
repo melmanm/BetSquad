@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BetSquad.Infrastructure.DTO.BetDTO>
+
+@{
+    ViewData["Title"] = "My bets";
+}
+
+<h2>My bets</h2>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Game.Team1.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Game.Team2.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExipiryDate)
+            </th>
+            <th>
+                My result:
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Game.Team1.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Game.Team2.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExipiryDate)
+            </td>
+            <td>
+                <b>
+                    @Html.DisplayFor(modelItem => item.Result.Result_str)
+                </b>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditBet", new { betId = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
