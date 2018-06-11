@@ -10,7 +10,7 @@ namespace BetSquad.Infrastructure.Extension
 {
     public static class RepositoryExtension
     {
-        public static async Task<T> GetOrThrow<T>(this IRepository<T> repository, Guid id)
+        public static async Task<T> GetOrThrow<T>(this IRepository<T> repository, Guid id) where T: class
         {
             var entity = await repository.Get(id);
             if (entity == null)

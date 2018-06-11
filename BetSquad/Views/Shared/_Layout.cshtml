@@ -36,14 +36,14 @@
 
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
                             <b>My Bets</b>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a asp-area="" asp-controller="User" asp-action="MyBets" class="dropdown-item">My bets</a></li>
-                            <li>  <a asp-area="" asp-controller="User" asp-action="MyWaitingBets" class="dropdown-item">My Bets waiting for result</a></li>
-                            <li><a asp-area="" asp-controller="User" asp-action="MyFinishedBets" class="dropdown-item">My Completed bets</a></li>
+                            <li>  <a asp-area="" asp-controller="User" asp-action="MyWaitingBets" class="dropdown-item">My bets waiting for result</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="MyFinishedBets" class="dropdown-item">My completed bets</a></li>
                         </ul>
                     </li>
 
@@ -57,7 +57,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - BetSquad</p>
+            <p>&copy; 2018 - BetSquad<span style="font-size:16px"> | Created by Michał Silski |</span> Project repository: <a href="https://github.com/melmanm/BetSquad/">github.com/melmanm/BetSquad</a></p>
         </footer>
     </div>
 

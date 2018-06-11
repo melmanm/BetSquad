@@ -33,43 +33,78 @@ namespace BetSquad.Controllers.User
         // GET: User
         public async Task<ActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var model = new UserIndexModel();
-            model.Bets = await _userService.GetBetsDTO(user.Id);
-            model.Games= await _userService.GetAvlblGamesDTO(user.Id);
-            return View(model);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var model = new UserIndexModel();
+                model.Bets = await _userService.GetBetsDTO(user.Id);
+                model.Games = await _userService.GetAvlblGamesDTO(user.Id);
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         public async Task<ActionResult> GamesToBet()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var games = await _userService.GetAvlblGamesDTO(user.Id);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var games = await _userService.GetAvlblGamesDTO(user.Id);
 
-            return View(games);
+                return View(games);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         public async Task<ActionResult> MyBets()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var bets = await _userService.GetBetsDTO(user.Id);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var bets = await _userService.GetBetsDTO(user.Id);
 
-            return View(bets);
+                return View(bets);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         public async Task<ActionResult> MyWaitingBets()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var bets = await _userService.GetWaitingBetsDTO(user.Id);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var bets = await _userService.GetWaitingBetsDTO(user.Id);
 
-            return View(bets);
+                return View(bets);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         public async Task<ActionResult> MyFinishedBets()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var bets = await _userService.GetFinishedBetDTO(user.Id);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var bets = await _userService.GetFinishedBetDTO(user.Id);
 
-            return View(bets);
+                return View(bets);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         // GET: User/Details/5
@@ -81,9 +116,16 @@ namespace BetSquad.Controllers.User
         // GET: User/Create
         public async Task<ActionResult> CreateBet(Guid gameId)
         {
-            var game = await _commonService.GetGame(gameId);
-            
-            return View(new UserCreateBetModel() {GameDTO = game});
+            try
+            {
+                var game = await _commonService.GetGame(gameId);
+
+                return View(new UserCreateBetModel() { GameDTO = game });
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         // POST: User/Create
@@ -98,19 +140,26 @@ namespace BetSquad.Controllers.User
 
                 return RedirectToAction(nameof(MyBets));
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return RedirectToAction("Error", "Home", new { error = e.Message });
             }
         }
 
         // GET: User/Edit/5
         public async Task<ActionResult> EditBet(Guid betId)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var bet = await _userService.GetBetDTO(user.Id,betId);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var bet = await _userService.GetBetDTO(user.Id, betId);
 
-            return View(new UserEditBetModel() { GameDTO = bet.Game, BetId = bet.Id });
+                return View(new UserEditBetModel() { GameDTO = bet.Game, BetId = bet.Id });
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         // POST: User/Edit/5
@@ -125,33 +174,13 @@ namespace BetSquad.Controllers.User
 
                 return RedirectToAction(nameof(MyBets));
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return RedirectToAction("Error", "Home", new { error = e.Message });
             }
         }
 
         // GET: User/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: User/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
     }
 }

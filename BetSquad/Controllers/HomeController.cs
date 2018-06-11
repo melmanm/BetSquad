@@ -16,5 +16,9 @@ namespace BetSquad.Controllers
         {
             return RedirectToAction("Index", "Common");
         }
+        public IActionResult Error(string error)
+        {
+            return View(new ErrorModel() { Error = error});
+        }
     }
 }

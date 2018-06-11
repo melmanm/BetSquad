@@ -37,13 +37,18 @@ namespace BetSquad.Infrastructure.Services
         {
             var user = await _userRepository.GetOrThrow(userId);
             var game = await _gameRepository.GetOrThrow(gameId);
+            if (user.Bets.Any(x=>x.Game.Id == gameId))
+            {
+                throw new Exception("Bet exists. You cant create it again.");
+            }
+
             var bet = new Bet(game, score1, score2);
             user.AddBet(bet);
 
-            await _betRepository.Insert(bet);
-            await _betRepository.SaveChanges();
-            await _userRepository.SaveChanges();
+            //await _betRepository.Insert(bet);
             
+            await _userRepository.SaveChanges();
+            await _betRepository.SaveChanges();
         }
 
         public async Task RemoveBet(Guid userId, Guid betId)
@@ -73,13 +78,13 @@ namespace BetSquad.Infrastructure.Services
         {
             var user = await _userRepository.Get(userId);
 
-            return _mapper.Map<ICollection<Bet>, ICollection<BetDTO>>(user.Bets.Where(x=>!x.Game.HasBegan).ToList());
+            return _mapper.Map<ICollection<Bet>, ICollection<BetDTO>>(user.Bets.Where(x=>!x.Game.HasBegan).OrderBy(x => x.ExipiryDate).ToList());
         }
         public async Task<ICollection<FinishedBetDTO>> GetFinishedBetDTO(Guid userId)
         {
             var user = await _userRepository.Get(userId);
 
-            return _mapper.Map<ICollection<FinishedBet>, ICollection<FinishedBetDTO>>(user.FinihedBets);
+            return _mapper.Map<ICollection<FinishedBet>, ICollection<FinishedBetDTO>>(user.FinihedBets.OrderByDescending(x => x.Bet.ExipiryDate).ToList());
         }
 
 
@@ -88,7 +93,7 @@ namespace BetSquad.Infrastructure.Services
             var user = await _userRepository.Get(userId);
             var games = await _gameRepository.GetAll();
             var betedGames = user.Bets.Select(x => x.Game);
-            var toreturn = games.Where(x => betedGames?.Contains(x)==false && !x.HasBegan && !x.HasResult).ToList();
+            var toreturn = games.Where(x => betedGames?.Contains(x)==false && !x.HasBegan && !x.HasResult).OrderBy(x => x.StartTime).ToList();
 
             return _mapper.Map<ICollection<Game>, ICollection<GameDTO>>(toreturn as ICollection<Game>);
         }
@@ -114,7 +119,7 @@ namespace BetSquad.Infrastructure.Services
         {
             var user = await _userRepository.Get(userId);
 
-            return _mapper.Map<ICollection<Bet>, ICollection<BetDTO>>(user.Bets.Where(x => x.Game.HasBegan).ToList());
+            return _mapper.Map<ICollection<Bet>, ICollection<BetDTO>>(user.Bets.Where(x => x.Game.HasBegan).OrderBy(x => x.ExipiryDate).ToList());
         }
     }
 

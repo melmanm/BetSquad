@@ -11,7 +11,9 @@ namespace BetSquad.Core.Domain
         public string NickName { get; set; }
         public virtual IList<Bet> Bets { get; set; }
         public virtual IList<FinishedBet> FinihedBets { get; set; }
-        public int Score { get; set; } = 0;
+        public int Score {
+            get; set;
+        }
         public string Status { get; set; } = "Good luck!";
 
         public ApplicationUser()
@@ -24,19 +26,40 @@ namespace BetSquad.Core.Domain
             Bets.Add(bet);
         }
 
-        public void GameResultChangedEventHandler(Bet bet)
+        public void GameResultChangedEventHandler(Guid gameid)
         {
-            if(Bets.Any(x => x.Id == bet.Id) || FinihedBets.Any(x => x.Bet.Id == bet.Id))
-            UpdateScore(bet, ScoreProvider.GetScore(bet.Game.Result, bet.Result));
+            var fbet = FinihedBets.FirstOrDefault(x => x.Bet.Game.Id == gameid);
+            if (fbet != null)
+            {
+                UpdateScore(fbet.Bet, ScoreProvider.GetScore(fbet.Bet.Game.Result, fbet.Bet.Result));
+            }
+            var bet = Bets.FirstOrDefault(x => x.Game.Id == gameid);
+            if (bet != null)
+            {
+                UpdateScore(bet, ScoreProvider.GetScore(bet.Game.Result, bet.Result));
+            }
+           
+     
         }
+
+
 
         private void UpdateScore(Bet bet, int scorePlus)
         {
+            var betslikethis = FinihedBets.Where(x => x.Bet.Game.Id == bet.Game.Id).ToList();
+            if (betslikethis.Count() > 1)
+            {
+                FinihedBets.Remove(betslikethis[1]);
+                Score -= betslikethis[1].AchivedScore;
+            }
             if (FinihedBets.Any(x=>x.Bet.Id == bet.Id))
             {
-                var finihed = FinihedBets.First(x => x.Bet.Id == bet.Id);
-                Score -= finihed.AchivedScore;
-                FinihedBets.Remove(finihed);
+                var finihed = FinihedBets.Where(x => x.Bet.Id == bet.Id).ToList();
+                foreach (var finish in finihed)
+                {
+                    Score -= finish.AchivedScore;
+                    FinihedBets.Remove(finish);
+                }
             }
             Score += scorePlus;
             FinihedBets.Add(new FinishedBet( bet, scorePlus));

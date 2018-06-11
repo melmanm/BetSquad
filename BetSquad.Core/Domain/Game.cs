@@ -6,7 +6,7 @@ namespace BetSquad.Core.Domain
 {
     public enum GameType
     {
-        Group, Quater, Semi, Final, SmallFinal
+        Group, Quater, Semi, Final, SmallFinal,Finals_1_8
     }
     
     public class Game : IBaseEntity

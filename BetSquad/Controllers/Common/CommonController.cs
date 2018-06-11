@@ -28,16 +28,30 @@ namespace BetSquad.Controllers.Common
         }
         public async Task<IActionResult> Index()
         {
-            var users = await _commonService.GetUsersDTO();
-            return View(users);
+            try
+            {
+                var users = await _commonService.GetUsersDTO();
+                return View(users);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         public async Task<ActionResult> FinishedBets(Guid userId)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var bets = await _commonService.GetFinishedBetDTO(userId);
-            var model = new CommonUserFinishedBetsModel() { FinishedBets = bets, Score = user.Score, Email = user.Email, NickName = user.NickName };
-            return View(model);
+            try
+            {
+                var user = await _commonService.GetUserDTO(userId);
+                var bets = await _commonService.GetFinishedBetDTO(userId);
+                var model = new CommonUserFinishedBetsModel() { FinishedBets = bets, Score = user.Score, Email = user.Email, NickName = user.NickName };
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ namespace BetSquad
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                //options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                
             }
@@ -55,6 +55,7 @@ namespace BetSquad
             services.AddScoped<IRepository<Result>, Repository<Result>>();
             services.AddScoped<IRepository<Team>, Repository<Team>>();
             services.AddScoped<IRepository<Bet>, Repository<Bet>>();
+            services.AddScoped<IRepository<FinishedBet>, Repository<FinishedBet>>();
             services.AddTransient<IInitializer, Initializer>();
             services.AddTransient<ICommonService, CommonService>();
             services.AddSingleton(AutoMapperConfig.Initialize());

@@ -6,7 +6,7 @@ namespace BetSquad.Core.Domain
 {
     public class Bet : IBaseEntity
     {
-        
+       
         public DateTime ExipiryDate { get; private set; }
         public bool IsActive
         {

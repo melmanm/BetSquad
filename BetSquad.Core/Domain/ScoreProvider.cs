@@ -16,10 +16,16 @@ namespace BetSquad.Core.Domain
                 if (result < 0) return 0;
                 else return result;
             }
-            if (real.Score1 == real.Score2 && bet.Score1 == bet.Score2)
+            else if (real.Score1 == real.Score2 && bet.Score1 == bet.Score2)
             {
                 if (real.Score1 == bet.Score1) return 10;
-                var result = 5 - Math.Abs(real.Score1 - bet.Score1);
+                var result = 10 - (Math.Abs(real.Score1 - bet.Score1)*2);
+                if (result < 0) return 0;
+                else return result;
+            }
+            else
+            {
+                var result = 5 - Math.Abs(real.Score1 - bet.Score1) - Math.Abs(real.Score2 - bet.Score2);
                 if (result < 0) return 0;
                 else return result;
             }

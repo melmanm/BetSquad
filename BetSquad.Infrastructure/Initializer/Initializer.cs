@@ -62,13 +62,13 @@ namespace BetSquad.Infrastructure.Initializer
                 var user = new ApplicationUser();
                 user.UserName = "maciej_admin@betsquad.com";
                 user.Email = "maciej_admin@betsquad.com";
-                user.NickName = "Maciej_S";
+                user.NickName = "Maciej_S - admin";
                 string userPWD = "Admin1!";
 
                 var user2 = new ApplicationUser();
                 user2.UserName = "michal_admin@betsquad.com";
                 user2.Email = "michal_silski@betsquad.com";
-                user2.NickName = "Michal_S";
+                user2.NickName = "Michal_S - admin";
                 string user2PWD = "Admin1!";
 
 

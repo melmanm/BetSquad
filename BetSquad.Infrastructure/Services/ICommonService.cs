@@ -13,5 +13,6 @@ namespace BetSquad.Infrastructure.Services
         Task<ICollection<TeamDTO>> GetTeams();
         Task<ICollection<FinishedBetDTO>> GetFinishedBetDTO(Guid userId);
         Task<ICollection<UserDTO>> GetUsersDTO();
+        Task<UserDTO> GetUserDTO(Guid id);
     }
 }

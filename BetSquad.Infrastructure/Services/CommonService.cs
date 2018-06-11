@@ -42,7 +42,7 @@ namespace BetSquad.Infrastructure.Services
         public async Task<ICollection<GameDTO>> GetGames()
         {
             var games = await _gameRepository.GetAll();
-            return _mapper.Map<ICollection<GameDTO>>(games);
+            return _mapper.Map<ICollection<GameDTO>>(games.OrderBy(x=>x.StartTime).ToList());
         }
 
         public async Task<ICollection<TeamDTO>> GetTeams()
@@ -53,15 +53,20 @@ namespace BetSquad.Infrastructure.Services
 
         public async Task<ICollection<UserDTO>> GetUsersDTO()
         {
-             var users = (await _userRepository.GetAll()).OrderByDescending(x=>x.Score);
+             var users = (await _userRepository.GetAllFlat()).OrderByDescending(x=>x.Score);
              return _mapper.Map<ICollection<UserDTO>>(users);
         }
         public async Task<ICollection<FinishedBetDTO>> GetFinishedBetDTO(Guid userId)
         {
             var user = await _userRepository.Get(userId);
 
-            return _mapper.Map<ICollection<FinishedBet>, ICollection<FinishedBetDTO>>(user.FinihedBets);
+            return _mapper.Map<ICollection<FinishedBet>, ICollection<FinishedBetDTO>>(user.FinihedBets.OrderBy(x=>x.Bet.ExipiryDate).ToList());
         }
 
+        public async Task<UserDTO> GetUserDTO(Guid id)
+        {
+            var users = await _userRepository.GetOrThrow(id);
+            return _mapper.Map<UserDTO>(users);
+        }
     }
 }

@@ -16,16 +16,18 @@ namespace BetSquad.Infrastructure.Services
         private readonly IRepository<Bet> _betRepository;
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Result> _resultRepository;
+        private readonly IRepository<FinishedBet> _finishedRepository;
         private readonly IRepository<Team> _teamRepository;
         private readonly IRepository<ApplicationUser> _userRepository;
         private readonly IMapper _mapper;
 
-        public AdminService(IRepository<Bet> betRepository, IRepository<Game> gameRepository, IRepository<Result> resultRepository, 
+        public AdminService(IRepository<Bet> betRepository, IRepository<Game> gameRepository, IRepository<Result> resultRepository, IRepository<FinishedBet> finishedRepository, 
             IRepository<Team> teamRepository, IRepository<ApplicationUser> userRepository, IMapper mapper)
         {
             _betRepository = betRepository;
             _gameRepository = gameRepository;
             _resultRepository = resultRepository;
+            _finishedRepository = finishedRepository;
             _teamRepository = teamRepository;
             _userRepository = userRepository;
             _mapper = mapper;
@@ -56,21 +58,48 @@ namespace BetSquad.Infrastructure.Services
             game.SetResult(score1, score2);
            
             await _gameRepository.Update(game);
-            var bets = (await _betRepository.GetAll()).Where(x => x.Game == game).ToList();
-            var users = await _userRepository.GetAll(); 
-            foreach(var user in users)
+            //var bets = (await _betRepository.GetAll()).Where(x => x.Game == game).ToList();
+           var users = await _userRepository.GetAll();
+            foreach (var user in users)
             {
-                foreach(var bet in bets)
-                {
-                    if(user.Bets.Any(x => x.Id == bet.Id) || user.FinihedBets.Any(x => x.Bet.Id == bet.Id))
-                    {
-                        user.GameResultChangedEventHandler(bet);
-                        await _userRepository.Update(user);
-                    }
-                }
+                user.GameResultChangedEventHandler(gameId);
             }
-            
-            
+
+            //var bet =  _betRepository.GetEntities(x=>x.)
+            //foreach(var user in users)
+            //{/
+               // user.GameResultChangedEventHandler(gameId);
+
+                //var selectefFinish = user.FinihedBets.FirstOrDefault(x => x.Bet.Game.Id == game.Id);
+                //if (selectefFinish != null)
+                //{
+                //    user.GameResultChangedEventHandler(selectefFinish.Bet);
+                //}
+                //var selected = user.Bets.FirstOrDefault(x => x.Game.Id == game.Id);
+                //if (selected != null)
+                //{
+                //    user.GameResultChangedEventHandler(selected);
+                //}
+
+
+                //foreach (var bet in bets)
+                //{
+                //    if(user.Bets.Any(x => x.Id == bet.Id) || user.FinihedBets.Any(x => x.Bet.Id == bet.Id))
+                //    {
+                //        user.GameResultChangedEventHandler(bet);
+                //        await _userRepository.Update(user);
+                //        try
+                //        {
+                //            await _betRepository.SaveChanges();
+                //            await _finishedRepository.SaveChanges();
+                //            await _betRepository.Update(bet);
+                //        }
+                //        catch { }
+                //    }
+                //}
+            //}
+            await _userRepository.SaveChanges();
+
         }
 
     }

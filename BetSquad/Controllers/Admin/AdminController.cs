@@ -38,7 +38,14 @@ namespace BetSquad.Controllers.Admin
         // GET: Admin
         public async Task<ActionResult> Games()
         {
-            return View(await _commonService.GetGames());
+            try
+            {
+                return View(await _commonService.GetGames());
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         // GET: Admin/Details/5
@@ -64,18 +71,25 @@ namespace BetSquad.Controllers.Admin
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return RedirectToAction("Error", "Home", new { error = e.Message });
             }
         }
 
         // GET: Admin/Edit/5
         public async Task<ActionResult> SetResult(Guid gameId)
         {
-            var game = await _commonService.GetGame(gameId);
+            try
+            {
+                var game = await _commonService.GetGame(gameId);
 
-            return View(new AdminSetResultModel() { GameDTO = game });
+                return View(new AdminSetResultModel() { GameDTO = game });
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Error", "Home", new { error = e.Message });
+            }
         }
 
         // POST: Admin/Edit/5
@@ -113,9 +127,9 @@ namespace BetSquad.Controllers.Admin
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return RedirectToAction("Error", "Home",new { error = e.Message });
             }
         }
 

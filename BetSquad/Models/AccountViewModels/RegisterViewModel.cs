@@ -24,8 +24,9 @@ namespace BetSquad.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
         [Display(Name = "User Name")]
-        [StringLength(100, ErrorMessage = "The {0} must be max {1} characters long.")]
+        [StringLength(25, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         public string NickName { get; set; }
     }
 }
